@@ -1,8 +1,8 @@
-import "@babel/polyfill";
-import "dotenv/config";
+import '@babel/polyfill';
+import 'dotenv/config';
 
-import app from "./server";
-import { config } from "./config";
+import app from './server';
+import { config } from './config';
 
 const main = async () => {
   app.listen(config.environment.port);
