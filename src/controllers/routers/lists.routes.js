@@ -13,9 +13,11 @@ import {
   updateLlist,
   deleteList,
 } from '../../services/lists.service';
+import { cacheResponse } from '../utils/cache';
 import { checkAuth } from '../middlewares/authHandler';
 import { error, success } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
+import { config } from '../../config/config';
 
 const routes = express.Router();
 
@@ -42,6 +44,7 @@ routes.get(
   validatorHandler({ id: listIdSchema }, 'params'),
   async (req, res, next) => {
     try {
+      cacheResponse(req, config.cache.fiveMinuteInSeconds);
       const result = await getAllListsByUserId(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
@@ -59,6 +62,7 @@ routes.get(
   validatorHandler(getOneListByUserIdSchema),
   async (req, res, next) => {
     try {
+      cacheResponse(req, config.cache.sixtyMinuteInSecodns);
       const result = await getOneListByUserId(req.body);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);

@@ -13,9 +13,11 @@ import {
   updateItemSchema,
   getOneItemByListIdSchema,
 } from '../schemas/items';
+import { cacheResponse } from '../utils/cache';
 import { checkAuth } from '../middlewares/authHandler';
 import { error, success } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
+import { config } from '../../config/config';
 
 const routes = express.Router();
 
@@ -42,6 +44,7 @@ routes.get(
   validatorHandler({ id: itemIdSchema }, 'params'),
   async (req, res, next) => {
     try {
+      cacheResponse(res, config.cache.fiveMinuteInSeconds);
       const result = await getAllItemsByItemId(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
@@ -59,6 +62,7 @@ routes.get(
   validatorHandler(getOneItemByListIdSchema),
   async (req, res, next) => {
     try {
+      cacheResponse(res, config.cache.sixtyMinuteInSecodns);
       const result = await getOneItemByItemId(req.body);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
