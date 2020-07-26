@@ -2,6 +2,8 @@ import express from 'express';
 import { createUser, getUser, updateUser } from '../../services/users.service';
 import { success, error } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
+import { checkAuth } from '../middlewares/authHandler';
+
 import {
   createUsersSchema,
   userIdSchema,
@@ -12,6 +14,7 @@ const routes = express.Router();
 
 routes.get(
   '/:id',
+  checkAuth,
   validatorHandler({ id: userIdSchema }, 'params'),
   async (req, res, next) => {
     try {
@@ -44,6 +47,7 @@ routes.post(
 
 routes.put(
   '/:id',
+  checkAuth,
   validatorHandler({ id: userIdSchema }, 'params'),
   validatorHandler(updateUsersSchema),
   async (req, res, next) => {

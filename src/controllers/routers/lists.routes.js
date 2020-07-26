@@ -13,26 +13,32 @@ import {
   updateLlist,
   deleteList,
 } from '../../services/lists.service';
-
+import { checkAuth } from '../middlewares/authHandler';
 import { error, success } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
 
 const routes = express.Router();
 
-routes.post('/', validatorHandler(createListSchema), async (req, res, next) => {
-  try {
-    const result = await createList(req.body);
-    if (result.status === 201) {
-      return success(req, res, result.info, result.status);
+routes.post(
+  '/',
+  checkAuth,
+  validatorHandler(createListSchema),
+  async (req, res, next) => {
+    try {
+      const result = await createList(req.body);
+      if (result.status === 201) {
+        return success(req, res, result.info, result.status);
+      }
+      return error(req, res, result.info, result.status);
+    } catch (e) {
+      next(e);
     }
-    return error(req, res, result.info, result.status);
-  } catch (e) {
-    next(e);
   }
-});
+);
 
 routes.get(
   '/:id',
+  checkAuth,
   validatorHandler({ id: listIdSchema }, 'params'),
   async (req, res, next) => {
     try {
@@ -49,6 +55,7 @@ routes.get(
 
 routes.get(
   '/',
+  checkAuth,
   validatorHandler(getOneListByUserIdSchema),
   async (req, res, next) => {
     try {
@@ -65,6 +72,7 @@ routes.get(
 
 routes.put(
   '/:id',
+  checkAuth,
   validatorHandler({ id: listIdSchema }, 'params'),
   validatorHandler(updateListSchema),
   async (req, res, next) => {
@@ -82,6 +90,7 @@ routes.put(
 
 routes.delete(
   '/:id',
+  checkAuth,
   validatorHandler({ id: listIdSchema }, 'params'),
   async (req, res, next) => {
     try {
