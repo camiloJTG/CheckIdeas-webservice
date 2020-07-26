@@ -13,10 +13,11 @@ import {
   updateLlist,
   deleteList,
 } from '../../services/lists.service';
+
 import { error, success } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
 
-const routes = express();
+const routes = express.Router();
 
 routes.post('/', validatorHandler(createListSchema), async (req, res, next) => {
   try {
