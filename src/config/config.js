@@ -9,4 +9,7 @@ export const config = {
     host: process.env.MONGO_HOST,
     database: process.env.MONGO_DATABASE,
   },
+  jwt: {
+    secretKey: process.env.JWT_SECRET_KEY,
+  },
 };
