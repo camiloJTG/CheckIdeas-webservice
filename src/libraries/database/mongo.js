@@ -34,6 +34,12 @@ export const remove = async (collection, id) => {
   return result.deletedCount;
 };
 
+export const removeMany = async (collection, query) => {
+  const db = await connection();
+  const result = await db.collection(collection).deleteMany(query);
+  return result.deletedCount;
+};
+
 export const getById = async (collection, id) => {
   const db = await connection();
   const result = await db.collection(collection).findOne({ _id: ObjectId(id) });

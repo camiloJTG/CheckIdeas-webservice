@@ -5,6 +5,7 @@ import {
   update,
   remove,
 } from '../libraries/database/mongo';
+import { deleteMany } from './items.service';
 
 const COLLECTION = 'lists';
 const COLLECTION_REF = 'users';
@@ -100,6 +101,7 @@ export const deleteList = async (id) => {
       status: 404,
     };
   }
+  const removeItems = await deleteMany(id);
   const result = await remove(COLLECTION, id);
   return { info: result, status: 200 };
 };

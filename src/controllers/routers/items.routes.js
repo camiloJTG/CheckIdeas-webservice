@@ -1,27 +1,27 @@
 import express from 'express';
 
 import {
-  createListSchema,
-  listIdSchema,
-  updateListSchema,
-  getOneListByUserIdSchema,
-} from '../schemas/lists';
+  createItems,
+  getAllItemsByItemId,
+  getOneItemByItemId,
+  updateItem,
+  deleteItem,
+} from '../../services/items.service';
 import {
-  createList,
-  getAllListsByUserId,
-  getOneListByUserId,
-  updateLlist,
-  deleteList,
-} from '../../services/lists.service';
+  createItemSchema,
+  itemIdSchema,
+  updateItemSchema,
+  getOneItemByListIdSchema,
+} from '../schemas/items';
 import { error, success } from '../middlewares/responseHandler';
 import { validatorHandler } from '../middlewares/validateHandler';
 
-const routes = express();
+const routes = express.Router();
 
-routes.post('/', validatorHandler(createListSchema), async (req, res, next) => {
+routes.post('/', validatorHandler(createItemSchema), async (req, res, next) => {
   try {
-    const result = await createList(req.body);
-    if (result.status === 201) {
+    const result = await createItems(req.body);
+    if (result.status === 200) {
       return success(req, res, result.info, result.status);
     }
     return error(req, res, result.info, result.status);
@@ -32,10 +32,10 @@ routes.post('/', validatorHandler(createListSchema), async (req, res, next) => {
 
 routes.get(
   '/:id',
-  validatorHandler({ id: listIdSchema }, 'params'),
+  validatorHandler({ id: itemIdSchema }, 'params'),
   async (req, res, next) => {
     try {
-      const result = await getAllListsByUserId(req.params.id);
+      const result = await getAllItemsByItemId(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
       }
@@ -48,10 +48,10 @@ routes.get(
 
 routes.get(
   '/',
-  validatorHandler(getOneListByUserIdSchema),
+  validatorHandler(getOneItemByListIdSchema),
   async (req, res, next) => {
     try {
-      const result = await getOneListByUserId(req.body);
+      const result = await getOneItemByItemId(req.body);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
       }
@@ -64,11 +64,11 @@ routes.get(
 
 routes.put(
   '/:id',
-  validatorHandler({ id: listIdSchema }, 'params'),
-  validatorHandler(updateListSchema),
+  validatorHandler({ id: itemIdSchema }, 'params'),
+  validatorHandler(updateItemSchema),
   async (req, res, next) => {
     try {
-      const result = await updateLlist(req.params.id, req.body);
+      const result = await updateItem(req.params.id, req.body);
       if (result.status === 201) {
         return success(req, res, result.info, result.status);
       }
@@ -81,10 +81,10 @@ routes.put(
 
 routes.delete(
   '/:id',
-  validatorHandler({ id: listIdSchema }, 'params'),
+  validatorHandler({ id: itemIdSchema }, 'params'),
   async (req, res, next) => {
     try {
-      const result = await deleteList(req.params.id);
+      const result = await deleteItem(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
       }
