@@ -12,4 +12,8 @@ export const config = {
   jwt: {
     secretKey: process.env.JWT_SECRET_KEY,
   },
+  cache: {
+    fiveMinuteInSeconds: process.env.FIVE_MINUTES_IN_SECONDS,
+    sixtyMinuteInSecodns: process.env.SIXTY_MINUTES_IN_SECONNDS,
+  },
 };
