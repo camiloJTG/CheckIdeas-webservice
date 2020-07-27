@@ -10,5 +10,5 @@ export const errorHandle = (err, req, res, next) => {
   if (config.environment.dev) {
     return error(req, res, { error: err.message, stack: err.stack }, 500);
   }
-  return error(req, res, '', 500);
+  return error(req, res, err.message, 500);
 };
