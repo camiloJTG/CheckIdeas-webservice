@@ -48,6 +48,14 @@ export const getById = async (collection, id) => {
 
 export const getByParams = async (collection, query) => {
   const db = await connection();
+  const { id, userId, listId } = query;
+  if (id && userId) {
+    const result = await db
+      .collection(collection)
+      .find({ _id: ObjectId(id), userId })
+      .toArray();
+    return result || [];
+  }
   const result = await db.collection(collection).find(query).toArray();
   return result || [];
 };
