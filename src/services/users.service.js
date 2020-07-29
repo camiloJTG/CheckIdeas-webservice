@@ -57,24 +57,30 @@ export const updateUser = async (data, id) => {
 
   // User exists
   const userExists = await getById(COLLECTION, id);
-  if (userExists === null) {
+  if (Object.keys(userExists).length === 0) {
     return {
       info: `the id ${id} was not found in the database`,
       status: 404,
     };
   }
 
-  // validate if mail or username was already registered
-  if (mail || username) {
-    if (userExists.mail === mail) {
+  // Validate if username was already registered
+  if (username) {
+    const usernameExists = await getByParams(COLLECTION, { username });
+    if (usernameExists.length !== 0) {
       return {
-        info: `The email ${mail} is already registred. Please, try again with another mail`,
+        info: `The username ${username} is already registred. Please, try again with another`,
         status: 428,
       };
     }
-    if (userExists.username === username) {
+  }
+
+  // Validate id mail was already registered
+  if (mail) {
+    const mailExists = await getByParams(COLLECTION, { mail });
+    if (mailExists.length !== 0) {
       return {
-        info: `The username ${username} is already registred. Please, try again with another username`,
+        info: `The mail ${mail} is already registred. Please, try again with another`,
         status: 428,
       };
     }
