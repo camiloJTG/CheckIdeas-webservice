@@ -39,7 +39,7 @@ routes.post(
 );
 
 routes.get(
-  '/:id',
+  '/listByUserId/:id',
   checkAuth,
   validatorHandler({ id: listIdSchema }, 'params'),
   async (req, res, next) => {
@@ -57,7 +57,7 @@ routes.get(
 );
 
 routes.get(
-  '/',
+  '/listByUserIdAndListId/',
   checkAuth,
   validatorHandler(getOneListByUserIdSchema),
   async (req, res, next) => {
