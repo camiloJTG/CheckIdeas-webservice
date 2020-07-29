@@ -75,7 +75,9 @@ export const getOneListByUserId = async (data) => {
 };
 
 export const updateLlist = async (id, data) => {
-  // Validate if userId is valid
+  const { name, userId } = data;
+
+  // Validate if list id is valid
   const listExists = await getById(COLLECTION, id);
   if (Object.keys(listExists).length === 0) {
     return {
@@ -83,7 +85,23 @@ export const updateLlist = async (id, data) => {
       status: 404,
     };
   }
-  if (!data.name) {
+  // Validate if user id is valid
+  const userIdExists = await getByParams(COLLECTION, { userId });
+  if (Object.keys(userIdExists).length === 0) {
+    return {
+      info: `The user id ${userId} was not found in the database`,
+      status: 404,
+    };
+  }
+
+  const listIdAndUserIdIsAgree = await getByParams(COLLECTION, { id, userId });
+  if (listIdAndUserIdIsAgree.length === 0) {
+    return {
+      info: `The user id ${userId} and the list id ${id} are not within the same collection`,
+      status: 404,
+    };
+  }
+  if (!name && !userId) {
     return { info: 'There is no data to change', status: 228 };
   }
 
@@ -93,7 +111,7 @@ export const updateLlist = async (id, data) => {
 };
 
 export const deleteList = async (id) => {
-  // Validate if userId is valid
+  // Validate if list id is valid
   const listExists = await getById(COLLECTION, id);
   if (Object.keys(listExists).length === 0) {
     return {
@@ -101,7 +119,9 @@ export const deleteList = async (id) => {
       status: 404,
     };
   }
-  const removeItems = await deleteMany(id);
+
+  // Delete items with list id
+  await deleteMany(id);
   const result = await remove(COLLECTION, id);
   return { info: result, status: 200 };
 };
