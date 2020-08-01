@@ -18,10 +18,7 @@ The start script has an assignment to the NODE_ENV environment wand where the va
 
 ### Environment Variable
 
-```
-The .env.example file contains the model of the environment variables used in this
-project. Please note that a mongoDB database is required for its operation
-```
+The .env.example file contains the model of the environment variables used in this project. Please note that a mongoDB database is required for its operation
 
 ## API Documentation
 
