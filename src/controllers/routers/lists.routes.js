@@ -56,7 +56,7 @@ routes.get(
   }
 );
 
-routes.get(
+routes.post(
   '/listByUserIdAndListId/',
   checkAuth,
   validatorHandler(getOneListByUserIdSchema),
