@@ -30,12 +30,12 @@ export const createItems = async (data) => {
   return { info: result, status: 200 };
 };
 
-export const getAllItemsByItemId = async (listId) => {
+export const getAllItemsByListId = async (listId) => {
   // Validate if listId is valid
   const listExist = await getById(COLLECTION_REF, listId);
   if (Object.keys(listExist).length === 0) {
     return {
-      info: `The list id ${listId} was not foun in the database`,
+      info: `The list id ${listId} was not found in the database`,
       status: 404,
     };
   }
@@ -67,24 +67,47 @@ export const getOneItemByItemId = async (data) => {
       status: 404,
     };
   }
+
   return { info: itemExists, status: 200 };
 };
 
 export const updateItem = async (id, data) => {
-  // Validate if item Id is valid
+  const { listId } = data;
+
+  // Validate if item id is valid
   const itemExists = await getById(COLLECTION, id);
   if (Object.keys(itemExists).length === 0) {
     return {
-      info: `The imtem id ${id} was not found in the database`,
+      info: `The item id ${id} was not found in the database`,
       status: 404,
     };
   }
+
+  // Validate if list id is valid
+  const listExists = await getById(COLLECTION_REF, listId);
+  if (Object.keys(listExists).length === 0) {
+    return {
+      info: `The list id ${listId} was not found in the database`,
+      status: 404,
+    };
+  }
+
+  // Validate if item id and list id is agree
+  const itemIdAndListIdIsAgree = await getByParams(COLLECTION, { id, listId });
+  if (itemIdAndListIdIsAgree.length === 0) {
+    return {
+      info: `The list id ${listId} and the item id ${id} are not within the same collection`,
+      status: 404,
+    };
+  }
+
   if (!data) {
     return { info: 'There is no data to change', status: 228 };
   }
 
   // Update list
-  const result = await update(COLLECTION, data, id);
+  const updatedItem = { ...data, updatedAt: Date.now() };
+  const result = await update(COLLECTION, updatedItem, id);
   return { info: result, status: 201 };
 };
 
