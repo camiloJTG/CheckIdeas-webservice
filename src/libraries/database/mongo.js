@@ -56,6 +56,13 @@ export const getByParams = async (collection, query) => {
       .toArray();
     return result || [];
   }
+  if (id && listId) {
+    const result = await db
+      .collection(collection)
+      .find({ _id: ObjectId(id), listId })
+      .toArray();
+    return result || [];
+  }
   const result = await db.collection(collection).find(query).toArray();
   return result || [];
 };
