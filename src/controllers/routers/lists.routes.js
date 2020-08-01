@@ -44,7 +44,7 @@ routes.get(
   validatorHandler({ id: listIdSchema }, 'params'),
   async (req, res, next) => {
     try {
-      cacheResponse(req, config.cache.fiveMinuteInSeconds);
+      cacheResponse(res, config.cache.fiveMinuteInSeconds);
       const result = await getAllListsByUserId(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
@@ -62,7 +62,7 @@ routes.get(
   validatorHandler(getOneListByUserIdSchema),
   async (req, res, next) => {
     try {
-      cacheResponse(req, config.cache.sixtyMinuteInSecodns);
+      cacheResponse(res, config.cache.sixtyMinuteInSecodns);
       const result = await getOneListByUserId(req.body);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
