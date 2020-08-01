@@ -3,9 +3,11 @@
 ## What is this ?
 
 ```
-CheckIdeas is a web service built entirely in JavaScript (Node JS) using tools such as babel to implement ES6 syntax and a connection to a mongoDB database.
+CheckIdeas is a web service built entirely in JavaScript (Node JS) using tools such
+as babel to implement ES6 syntax and a connection to a mongoDB database.
 
-This project consists in the development of a "checklist" system where users can register their tasks and mark with a "Check" those that are complete
+This project consists in the development of a "checklist" system where users can
+register their tasks and mark with a "Check" those that are complete
 ```
 
 ## Development information
@@ -17,25 +19,30 @@ This project consists in the development of a "checklist" system where users can
 - build = generate dist folder with older js syntax using babel
 - start = run the service in production.
 
-The start script has an assignment to the NODE_ENV environment wand where the value "production" is assigned. However, there is a problem when this script runs on window systems because the SET prefix is missing before assigning the value. That is, if you are in a window system you must set the following: SET NODE_ENV=production and you are in linux you should not make any changes
+The start script has an assignment to the NODE_ENV environment wand where the value
+"production" is assigned. However, there is a problem when this script runs on
+window systems because the SET prefix is missing before assigning the value.
+That is, if you are in a window system you must set the following:
+SET NODE_ENV=production and you are in linux you should not make any changes
 ```
 
 ### Environment Variable
 
 ```
-The .env.example file contains the model of the environment variables used in this project. Please note that a mongoDB database is required for its operation
+The .env.example file contains the model of the environment variables used in this
+project. Please note that a mongoDB database is required for its operation
 ```
 
 ## API Documentation
 
 ```
-https://app.swaggerhub.com/apis-docs/camilo_JTG/BookC/1.0.0
+https://app.swaggerhub.com/apis-docs/camilo_JTG/CheckIdeas/1.0.0
 ```
 
 ## URL api server
 
 ```
-https://bookc-webservice.herokuapp.com/
+https://checkideas-webservice.herokuapp.com/
 ```
 
 ## How use ?
