@@ -2,7 +2,7 @@ import express from 'express';
 
 import {
   createItems,
-  getAllItemsByItemId,
+  getAllItemsByListId,
   getOneItemByItemId,
   updateItem,
   deleteItem,
@@ -39,13 +39,13 @@ routes.post(
 );
 
 routes.get(
-  '/:id',
+  '/allItemsByListId/:id',
   checkAuth,
   validatorHandler({ id: itemIdSchema }, 'params'),
   async (req, res, next) => {
     try {
       cacheResponse(res, config.cache.fiveMinuteInSeconds);
-      const result = await getAllItemsByItemId(req.params.id);
+      const result = await getAllItemsByListId(req.params.id);
       if (result.status === 200) {
         return success(req, res, result.info, result.status);
       }
@@ -57,7 +57,7 @@ routes.get(
 );
 
 routes.get(
-  '/',
+  '/itemBylistIdAndItemId/',
   checkAuth,
   validatorHandler(getOneItemByListIdSchema),
   async (req, res, next) => {
